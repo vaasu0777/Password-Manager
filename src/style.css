@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+.lol {
+  font-family: "Alex Brush", cursive;
+  font-weight: 900;
+}
+
+@layer components {
+  .my-class {
+    @apply container px-11 mx-auto justify-between items-center flex space-y-1 align-middle;
+  }
+
+  .footer-text {
+    @apply relative top-2 text-2xl italic font-[cursive];
+  }
+}
