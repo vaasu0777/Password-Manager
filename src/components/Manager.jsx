@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -9,6 +9,24 @@ const Manager = () => {
     const [site, setSite] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    async function getPasswords() {
+        try {
+            let response = await fetch("http://localhost:3000/", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            if (response !== undefined) {
+                let data = await response.json();
+                setPasswordArray(data);
+            }
+        }
+        catch (err) {
+            console.clear();
+        }
+    }
 
     async function editPassword(id, user, pass, url) {
         let c = confirm("Do you really want to edit the details");
@@ -52,6 +70,7 @@ const Manager = () => {
                 progress: undefined,
                 theme: "dark",
             });
+            getPasswords();
         }
     }
 
@@ -94,6 +113,7 @@ const Manager = () => {
                 progress: undefined,
                 theme: "dark",
             });
+            getPasswords();
         }
     }
 
@@ -111,7 +131,6 @@ const Manager = () => {
                     password: password1
                 })
             })
-
             toast("Password deleted successfully!!", {
                 position: "top-right",
                 autoClose: 5000,
@@ -122,24 +141,7 @@ const Manager = () => {
                 progress: undefined,
                 theme: "dark",
             });
-        }
-    }
-
-    async function getPasswords() {
-        try {
-            let response = await fetch("http://localhost:3000/", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-            if (response !== undefined) {
-                let data = await response.json();
-                setPasswordArray(data);
-            }
-        }
-        catch (err) {
-            console.clear();
+            getPasswords();
         }
     }
 
@@ -157,18 +159,14 @@ const Manager = () => {
         });
     }, [])
 
-    useEffect(() => {
-        getPasswords();
-    }, [passwordArray])
-
     function click() {
         if (src === "./assets/eye.png") {
             setSrc("./assets/eye-cross.png");
-            setType("password");
+            setType("text");
         }
         else if (src === "./assets/eye-cross.png") {
             setSrc("./assets/eye.png");
-            setType("text");
+            setType("password");
         }
     }
 
@@ -227,8 +225,8 @@ const Manager = () => {
 
                             {/* MOBILE CARDS - visible only on small screens */}
                             <div className="flex flex-col gap-3 sm:hidden">
-                                {passwordArray.map((item, index) => (
-                                    <div key={index} className="bg-white rounded-2xl shadow p-4 border border-green-200">
+                                {passwordArray.map((item) => (
+                                    <div key={item._id} className="bg-white rounded-2xl shadow p-4 border border-green-200">
                                         <div className="flex justify-between items-center mb-1">
                                             <span className="font-semibold text-green-800 truncate">{item.site}</span>
                                             <span className="cursor-pointer" onClick={() => copy(item.site)}>
@@ -274,8 +272,8 @@ const Manager = () => {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-green-200 bg-green-100">
-                                        {passwordArray.map((item, index) => (
-                                            <tr key={index} className="hover:bg-green-100 transition-colors text-sm">
+                                        {passwordArray.map((item) => (
+                                            <tr key={item._id} className="hover:bg-green-100 transition-colors text-sm">
                                                 <td className="px-4 py-3 text-center truncate">{item.site}</td>
                                                 <td className="text-center cursor-pointer" onClick={() => copy(item.site)}>
                                                     <lord-icon src="https://cdn.lordicon.com/iykgtsbt.json" trigger="click" style={{ width: "20px", height: "20px" }} />
