@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Manager = () => {
     const [src, setSrc] = useState("./assets/eye.png");
-    const [type, setType] = useState("text");
+    const [type, setType] = useState("password");
     const [passwordArray, setPasswordArray] = useState([]);
     const [site, setSite] = useState("");
     const [username, setUsername] = useState("");
@@ -308,3 +308,4 @@ const Manager = () => {
 }
 
 export default Manager
+
