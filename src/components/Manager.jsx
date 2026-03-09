@@ -35,22 +35,14 @@ const Manager = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    _id: id,   // ✅ correct key
+                    _id: id,
                     site: site,
                     username: username,
                     password: password
                 })
             });
 
-            setPasswordArray(prev =>
-                prev.map(item =>
-                    item._id === id
-                        ? { ...item, site, username, password }
-                        : item
-                )
-            )
-
-            toast('Password edited successfully!!', {
+            toast("Password edited successfully!!", {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -64,11 +56,6 @@ const Manager = () => {
     }
 
     async function savePassword() {
-        const newPassword = {
-            site: site,
-            username: username,
-            password: password
-        }
         if (site.trim() === "" || username.trim() === "" || password.trim() === "") {
             toast("Please fill all the details", {
                 position: "top-right",
@@ -94,9 +81,6 @@ const Manager = () => {
                     password: password
                 })
             })
-
-            setPasswordArray([...passwordArray, newPassword])
-
             setSite("")
             setUsername("")
             setPassword("")
@@ -127,13 +111,7 @@ const Manager = () => {
                     password: password1
                 })
             })
-            setPasswordArray(prev =>
-                prev.filter(item =>
-                    !(item.username === username1 &&
-                        item.password === password1 &&
-                        item.site === site1)
-                )
-            )
+
             toast("Password deleted successfully!!", {
                 position: "top-right",
                 autoClose: 5000,
@@ -160,7 +138,7 @@ const Manager = () => {
                 setPasswordArray(data);
             }
         }
-        catch (err) {   
+        catch (err) {
             console.clear();
         }
     }
@@ -178,6 +156,10 @@ const Manager = () => {
             theme: "dark",
         });
     }, [])
+
+    useEffect(() => {
+        getPasswords();
+    }, [passwordArray])
 
     function click() {
         if (src === "./assets/eye.png") {
