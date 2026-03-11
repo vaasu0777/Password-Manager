@@ -60,3 +60,4 @@ Clone the repository:
 ```bash
 git clone https://github.com/vaasu0777/Password-Manager.git
 cd Password-Manager
+npm i
